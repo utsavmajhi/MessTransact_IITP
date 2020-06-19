@@ -65,6 +65,7 @@ class EntryModel{
       map['Amount']=_Amount;
       map['Quantity']=_Quantity;
       map['date']=_date;
+      return map;
 
   }
     EntryModel.fromMapObject(Map<String,dynamic> map){

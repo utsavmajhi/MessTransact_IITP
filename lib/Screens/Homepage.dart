@@ -51,9 +51,7 @@ class _HomepageState extends State<Homepage> {
           elevation: 2.0,
           child: ListTile(
 
-            title: Text(this.entryList[position].MealType, style: titleStyle,),
-
-            subtitle: Text(this.entryList[position].FoodCat),
+            title: Text(this.entryList[position].FoodCat.toString()),
 
           ),
         );

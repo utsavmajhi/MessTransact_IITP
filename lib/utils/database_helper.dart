@@ -45,7 +45,7 @@ class DatabaseHelper{
   void _createDb(Database db, int newVersion) async {
 
     await db.execute('CREATE TABLE $entryTable($colId INTEGER PRIMARY KEY AUTOINCREMENT, $colMealType TEXT, '
-        '$colFoodCat TEXT, $colPayment TEXT, $colAmount REAL, $colQuantity INTEGER, $colDate TEXT )');
+        '$colFoodCat TEXT, $colPayment TEXT, $colAmount REAL, $colQuantity INTEGER, $colDate TEXT)');
   }
   Future<List<Map<String, dynamic>>> getNoteMapList() async {
     Database db = await this.database;
@@ -57,7 +57,7 @@ class DatabaseHelper{
   // Insert Operation: Insert a Note object to database
   Future<int> insertNote(EntryModel entry) async {
     Database db = await this.database;
-    var result = await db.insert(entryTable, entry.toMap());
+    var result = await db.insert(entryTable, entry.toMap(),nullColumnHack: colId);
     return result;
   }
 
