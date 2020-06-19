@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:messtransacts/Screens/AddEntryScreens/AEdatefoodtype.dart';
 import 'package:messtransacts/models/EntryModel.dart';
 import 'package:messtransacts/utils/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'LogData.dart';
+
+
 class WillyHome extends StatefulWidget {
   static String id='Willy_homescreen';
   @override
@@ -52,14 +56,15 @@ class _WillyHomeState extends State<WillyHome> {
           Container(
             child: Expanded(
               child: GridView.count(
-                mainAxisSpacing: 35,
-                crossAxisSpacing: 22,
+                mainAxisSpacing: 30,
+                crossAxisSpacing: 10,
                 primary: false,
                 children: <Widget>[
                   InkWell(
                     onTap: ()
                     {
-                      //goto next screen
+                      //goto addentryscreens screen
+                      Navigator.pushNamed(context, AEdatefoodtype.id);
 
                     },
                     child: Padding(
@@ -96,7 +101,8 @@ class _WillyHomeState extends State<WillyHome> {
                   ),
                   InkWell(
                     onTap: (){
-
+                        //
+                          Navigator.pushNamed(context, LogData.id);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
@@ -109,7 +115,7 @@ class _WillyHomeState extends State<WillyHome> {
 
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: <Widget>[
-                            Hero(tag: "Edit Travel Plan",
+                            Hero(tag: "LogData",
                                 child: SvgPicture.asset('images/result.svg',height: 100,)),
                             SizedBox(
                               height: 20 ,
@@ -117,7 +123,7 @@ class _WillyHomeState extends State<WillyHome> {
                             Text(
                               'Log Data',
                               style: TextStyle(
-                                  fontFamily: 'Montserrat Regular',
+
                                   fontSize: 16,
                                   fontWeight: FontWeight.w700,
                                   color: Color.fromRGBO(63, 63, 63, 1)

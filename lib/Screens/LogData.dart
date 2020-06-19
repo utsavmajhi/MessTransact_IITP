@@ -3,13 +3,13 @@ import 'package:messtransacts/models/EntryModel.dart';
 import 'package:messtransacts/utils/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 EntryModel entryfake=new EntryModel("Breakfasewft", "FowerweodCat"," Paymerewrewnt", 200, 3);
-class Homepage extends StatefulWidget {
-  static String id='home_screen';
+class LogData extends StatefulWidget {
+  static String id='logdata_screen';
   @override
-  _HomepageState createState() => _HomepageState();
+  _LogDataState createState() => _LogDataState();
 }
 
-class _HomepageState extends State<Homepage> {
+class _LogDataState extends State<LogData> {
   DatabaseHelper databaseHelper = DatabaseHelper();
   List<EntryModel> entryList;
 
@@ -28,7 +28,12 @@ class _HomepageState extends State<Homepage> {
 
 
               try {
-                _save();
+
+                if(_save()=="Success"){
+                  setState(() {
+
+                  });
+                }
               }catch (e) {
                 // TODO
                 print(e.message);
@@ -50,7 +55,6 @@ class _HomepageState extends State<Homepage> {
           color: Colors.white,
           elevation: 2.0,
           child: ListTile(
-
             title: Text(this.entryList[position].FoodCat.toString()),
 
           ),
@@ -72,7 +76,7 @@ class _HomepageState extends State<Homepage> {
       });
     });
   }
-  void _save() async {
+  Future<String> _save() async {
 
     int result;
     if (entryfake.id != null) {  // Case 1: Update operation
@@ -83,7 +87,7 @@ class _HomepageState extends State<Homepage> {
     }
     if(result!=0)
       {
-        print("Success");
+        return "Success";
       }
 
   }
