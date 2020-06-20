@@ -15,7 +15,21 @@ class AddEntryFinal extends StatefulWidget {
 }
 
 class _AddEntryFinalState extends State<AddEntryFinal> {
+int selectradio;
 
+//RADIO BUTTONS DESCRIPSTION: 1-Cash 2-Gpay 3-Khata
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    selectradio=0;
+  }
+
+  setSelectedRadio(int val){
+  setState(() {
+    selectradio=val;
+  });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -24,31 +38,158 @@ class _AddEntryFinalState extends State<AddEntryFinal> {
       body: SafeArea(
         child: Column(
           children: <Widget>[
-            Card(
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: <Widget>[
-                  Column(
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                color: Colors.red[500],
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: <Widget>[
-                      Text(
-                        '27 May 2020',
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            addentrysc1Data.date,
+                            style: GoogleFonts.montserrat(
+                              fontSize: 20,
+                              color: Colors.white
+                            ),
+                          ),
+                          SizedBox(
+                            height: 3,
+                          ),
+
+                        ],
                       ),
-                      Text(
-                        'BreakFast'
+                      Column(
+                        children: <Widget>[
+                          CircleAvatar(
+                            child:Icon(Icons.fastfood),
+                          ),
+                          Text(
+                            addentrysc1Data.foodcat,
+                            style: GoogleFonts.montserrat(
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ],
                       ),
+                      Column(
+                        children: <Widget>[
+                          Text(
+                            'Entry No:',
+                            style: GoogleFonts.montserrat(
+
+                              fontSize: 20,
+                              color: Colors.white,
+                            ),
+                          ),
+                          Text(
+                            '12',
+                            style: GoogleFonts.montserrat(
+                              fontSize: 18,
+                              color: Colors.white
+                            ),
+                          ),
+                        ],
+                      )
                     ],
                   ),
-                  Column(
-                    children: <Widget>[
-                      Text(
-                        'Entry No:',
-                      ),
-                      Text(
-                        '12',
-                      ),
-                    ],
-                  )
-                ],
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Card(
+                color: Colors.red,
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(
+                      height: 10,
+                    ),
+                    Text('Select the Mode of Payment',
+                    style: TextStyle(
+                      fontSize: 18,
+                      color: Colors.white
+                    ),),
+                    ButtonBar(
+                      alignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Row(
+                          children: <Widget>[
+                            Radio(
+                              value:1,
+                              groupValue: selectradio,
+                              activeColor: Colors.white,
+                              onChanged: (value){
+                                print(value);
+                                setSelectedRadio(value);
+                              },
+                            ),
+                            Text(
+                              'Cash',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Radio(
+                              value:2,
+                              groupValue: selectradio,
+                              activeColor: Colors.white,
+                              onChanged: (value){
+                                print(value);
+                                setSelectedRadio(value);
+                              },
+                            ),
+                            Text(
+                              'GPay',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            )
+                          ],
+                        ),
+                        Row(
+                          children: <Widget>[
+                            Radio(
+                              value:3,
+                              groupValue: selectradio,
+                              activeColor: Colors.white,
+                              onChanged: (value){
+                                print(value);
+                                setSelectedRadio(value);
+                              },
+                            ),
+                            Text(
+                              'Khaata',
+                              style: TextStyle(
+                                fontSize: 16,
+                                color: Colors.white,
+                              ),
+                            )
+                          ],
+                        ),
+
+                      ],
+                    )
+                  ],
+                ),
+              ),
+            ),
+            Card(
+              child: ListTile(
+
               ),
             )
           ],
