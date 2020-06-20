@@ -15,8 +15,43 @@ class AddEntryFinal extends StatefulWidget {
 }
 
 class _AddEntryFinalState extends State<AddEntryFinal> {
+
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    Addentrysc1 addentrysc1Data=ModalRoute.of(context).settings.arguments;
+    return Scaffold(
+      body: Column(
+        children: <Widget>[
+          Card(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Column(
+                  children: <Widget>[
+                    Text(
+                      '27 May 2020',
+                    ),
+                    Text(
+                      'BreakFast'
+                    ),
+                  ],
+                ),
+                Column(
+                  children: <Widget>[
+                    Text(
+                      'Entry No:',
+                    ),
+                    Text(
+                      '12',
+                    ),
+                  ],
+                )
+              ],
+            ),
+          )
+        ],
+      ),
+    );
   }
 }
