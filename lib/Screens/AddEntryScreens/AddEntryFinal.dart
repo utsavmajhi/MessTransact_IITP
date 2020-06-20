@@ -9,17 +9,22 @@ import 'package:messtransacts/Screens/LogData.dart';
 import 'package:intl/intl.dart';
 import 'package:messtransacts/Passarguments/Addentrysc1.dart';
 import 'package:messtransacts/utils/roundedbuttonsmall.dart';
+import 'package:messtransacts/models/EntryModel.dart';
+import 'package:messtransacts/utils/database_helper.dart';
+import 'package:sqflite/sqflite.dart';
 
 
 List<int> itemquan=List<int>();
 class AddEntryFinal extends StatefulWidget {
+
   static String id='addentryfinal_screen';
   @override
   _AddEntryFinalState createState() => _AddEntryFinalState();
 }
 
 class _AddEntryFinalState extends State<AddEntryFinal> {
-int selectradio;
+  DatabaseHelper databaseHelper = DatabaseHelper();
+  int selectradio;
 
 //RADIO BUTTONS DESCRIPSTION: 1-Cash 2-Gpay 3-Khata
 @override
@@ -103,7 +108,7 @@ int selectradio;
                               child:Icon(Icons.fastfood),
                             ),
                             Text(
-                              addentrysc1Data.foodcat,
+                              addentrysc1Data.mealtype,
                               style: GoogleFonts.montserrat(
                                 fontSize: 20,
                                 color: Colors.white,
@@ -231,6 +236,7 @@ int selectradio;
                         return Padding(
                           padding: const EdgeInsets.symmetric(horizontal:8.0,vertical: 0),
                           child: Card(
+                            elevation: 4,
                             child: Padding(
                               padding: const EdgeInsets.symmetric(horizontal:8.0),
                               child: Row(
@@ -307,9 +313,34 @@ int selectradio;
 
                     RoundedButtonSmall(title: 'Submit',colour: Colors.deepOrange,onPressed: (){
                       //click on submit button
+                      if(selectradio!=0)
+                        {
+                          for(int i=0;i<addentrysc1Data.foodlists.length;i++)
+                          {
+                            if(itemquan[i]!=0)
+                            {
+                              EntryModel entryitem=new EntryModel(addentrysc1Data.mealtype, addentrysc1Data.foodlists[i],radiobutton(selectradio), addentrysc1Data.fooditemcost[i], itemquan[i]);
+                              try {
+                                if(_save(entryitem)=="Success"){
+                                  setState(() {
+                                  });
+                                }
+                              }catch (e) {
+                                // TODO
+                                print(e.message);
+                              }
+                            }
+                          }
+                        }
+
+
+
+
+
+
                     },),
                     RoundedButtonSmall(title: 'Reset',colour: Colors.black,onPressed: (){
-                      //click on submit button
+                      //click on reset button
                     },),
                   ],
                 ),
@@ -320,5 +351,28 @@ int selectradio;
       );
     }
 
+  }
+  Future<String> _save(@required EntryModel entryItem) async {
+
+    int result;
+    if (entryItem.id != null) {  // Case 1: Update operation
+      print("null id");
+    } else { // Case 2: Insert Operation
+      result = await databaseHelper.insertNote(entryItem);
+      print("Entering");
+    }
+    if(result!=0)
+    {
+      return "Success";
+    }
+
+  }
+  String radiobutton(@required int value){
+    switch(value){
+      case 1:return "Cash";
+      case 2:return "GPay";
+      case 3:return "Khaata";
+      default:return "Cash";
+    }
   }
 }

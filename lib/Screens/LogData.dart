@@ -55,7 +55,7 @@ class _LogDataState extends State<LogData> {
           color: Colors.white,
           elevation: 2.0,
           child: ListTile(
-            title: Text(this.entryList[position].FoodCat.toString()),
+            title: Text(this.entryList[position].FoodCat.toString()+"Quan:"+this.entryList[position].Quantity.toString()+"Pay:"+this.entryList[position].Payment),
 
           ),
         );
