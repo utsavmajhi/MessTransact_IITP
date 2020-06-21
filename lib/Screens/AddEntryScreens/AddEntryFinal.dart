@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:messtransacts/Screens/AddEntryScreens/AEdatefoodtype.dart';
 import 'package:messtransacts/Screens/WillyHome.dart';
 import 'package:messtransacts/models/EntryModel.dart';
 import 'package:messtransacts/utils/database_helper.dart';
@@ -14,7 +15,7 @@ import 'package:messtransacts/utils/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 
 
-List<int> itemquan=List<int>();
+
 class AddEntryFinal extends StatefulWidget {
 
   static String id='addentryfinal_screen';
@@ -23,9 +24,26 @@ class AddEntryFinal extends StatefulWidget {
 }
 
 class _AddEntryFinalState extends State<AddEntryFinal> {
+  List<int> itemquan=List<int>();
   DatabaseHelper databaseHelper = DatabaseHelper();
   int selectradio;
+  GlobalKey<ScaffoldState> _scaffoldKey= new GlobalKey<ScaffoldState>();
+  _showSnackBar(@required String message, @required Color colors) {
+    if(_scaffoldKey!=null)
+    {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          backgroundColor: colors,
+          content: new Text(message,
+          style: TextStyle(
+            color: Colors.white,
+          ),),
+          duration: new Duration(seconds: 3),
+        ),
+      );
+    }
 
+  }
 //RADIO BUTTONS DESCRIPSTION: 1-Cash 2-Gpay 3-Khata
 @override
   void initState() {
@@ -60,6 +78,7 @@ class _AddEntryFinalState extends State<AddEntryFinal> {
         return Text('Loading');
       }else{
       return Scaffold(
+        key: _scaffoldKey,
         body: SafeArea(
           child: Column(
             children: <Widget>[
@@ -70,7 +89,7 @@ class _AddEntryFinalState extends State<AddEntryFinal> {
                     iconSize: 18,
                     icon: Icon(Icons.arrow_back_ios),
                     onPressed: (){
-                      Navigator.pop(context);
+                      Navigator.pushReplacementNamed(context, AEdatefoodtype.id);
                     },
                   ) ,
                 ],
@@ -313,25 +332,37 @@ class _AddEntryFinalState extends State<AddEntryFinal> {
 
                     RoundedButtonSmall(title: 'Submit',colour: Colors.deepOrange,onPressed: (){
                       //click on submit button
-                      if(selectradio!=0)
+                      String checks=checkConditions(addentrysc1Data.mealtype, selectradio,itemquan);
+                      if(checks=="Passed")
                         {
                           for(int i=0;i<addentrysc1Data.foodlists.length;i++)
                           {
                             if(itemquan[i]!=0)
                             {
-                              EntryModel entryitem=new EntryModel(addentrysc1Data.mealtype, addentrysc1Data.foodlists[i],radiobutton(selectradio), addentrysc1Data.fooditemcost[i], itemquan[i]);
+                              EntryModel entryitem=new EntryModel(addentrysc1Data.mealtype, addentrysc1Data.foodlists[i],radiobutton(selectradio), addentrysc1Data.fooditemcost[i], itemquan[i],addentrysc1Data.date);
                               try {
                                 if(_save(entryitem)=="Success"){
-                                  setState(() {
-                                  });
+
+
                                 }
                               }catch (e) {
-                                // TODO
-                                print(e.message);
+                                _showSnackBar(e.message,Colors.black);
                               }
                             }
+
                           }
-                        }
+                          _showSnackBar("Successfully Submitted",Colors.green);
+                          setState(() {
+                            //default states
+                            selectradio=0;
+                            for(int i=0;i<itemquan.length;i++){
+                              itemquan[i]=0;
+                            }
+
+                          });
+                        }else{
+                        _showSnackBar(checks,Colors.black);
+                      }
 
 
 
@@ -341,6 +372,14 @@ class _AddEntryFinalState extends State<AddEntryFinal> {
                     },),
                     RoundedButtonSmall(title: 'Reset',colour: Colors.black,onPressed: (){
                       //click on reset button
+                      setState(() {
+                        //default states
+                        selectradio=0;
+                        for(int i=0;i<itemquan.length;i++){
+                          itemquan[i]=0;
+                        }
+
+                      });
                     },),
                   ],
                 ),
@@ -355,14 +394,12 @@ class _AddEntryFinalState extends State<AddEntryFinal> {
   Future<String> _save(@required EntryModel entryItem) async {
 
     int result;
-    if (entryItem.id != null) {  // Case 1: Update operation
-      print("null id");
-    } else { // Case 2: Insert Operation
       result = await databaseHelper.insertNote(entryItem);
       print("Entering");
-    }
-    if(result!=0)
+
+    if(await result!=0)
     {
+      print("success");
       return "Success";
     }
 
@@ -374,5 +411,32 @@ class _AddEntryFinalState extends State<AddEntryFinal> {
       case 3:return "Khaata";
       default:return "Cash";
     }
+  }
+
+  String checkConditions(@required String Mealtype,int radiobutton, List<int> itemquan){
+    if(radiobutton==0){
+      return "Please Select Payment Mode!";
+    }
+    else
+      {
+        if(Mealtype.isEmpty){
+          return "Please reset and retry!";
+        }else{
+          int temp=0;
+          for(int i=0;i<itemquan.length;i++)
+            {
+              temp=temp+itemquan[i];
+            }
+          if(temp==0)
+            {
+              return "No Quantity has been defined";
+            }else{
+            return "Passed";
+          }
+
+
+        }
+      }
+
   }
 }

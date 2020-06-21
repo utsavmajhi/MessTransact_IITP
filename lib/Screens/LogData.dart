@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:messtransacts/models/EntryModel.dart';
 import 'package:messtransacts/utils/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
-EntryModel entryfake=new EntryModel("Breakfasewft", "FowerweodCat"," Paymerewrewnt", 200, 3);
+EntryModel entryfake=new EntryModel("Breakfasewft", "FowerweodCat"," Paymerewrewnt", 200, 3,"27-06-2020");
 class LogData extends StatefulWidget {
   static String id='logdata_screen';
   @override

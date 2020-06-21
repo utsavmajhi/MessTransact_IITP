@@ -13,9 +13,9 @@ class EntryModel{
      _date = value;
    }
    EntryModel(this._MealType, this._FoodCat, this._Payment,
-       this._Amount, this._Quantity);
+       this._Amount, this._Quantity,this._date);
    EntryModel.withId(this._id, this._MealType, this._FoodCat, this._Payment,
-       this._Amount, this._Quantity);
+       this._Amount, this._Quantity,this._date);
 
    int get Quantity => _Quantity;
 
