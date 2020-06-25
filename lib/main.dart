@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:messtransacts/Screens/LogData.dart';
+import 'package:messtransacts/Screens/AllLogData.dart';
 import 'package:messtransacts/Screens/WillyHome.dart';
 import 'package:messtransacts/Screens/AddEntryScreens/AEdatefoodtype.dart';
 import 'package:messtransacts/Screens/AddEntryScreens/AddEntryFinal.dart';
+import 'package:messtransacts/Screens/LogDataAnalysis.dart';
 
 void main() {
   runApp(MyApp());
@@ -19,6 +20,7 @@ class MyApp extends StatelessWidget {
         WillyHome.id:(context) => WillyHome(),
         AEdatefoodtype.id:(context) => AEdatefoodtype(),
         AddEntryFinal.id:(context) => AddEntryFinal(),
+        LogDataAnalysis.id:(context) => LogDataAnalysis(),
       },
     );
   }

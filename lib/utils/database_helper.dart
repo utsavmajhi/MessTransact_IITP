@@ -96,5 +96,34 @@ class DatabaseHelper{
 
     return noteList;
   }
+  //for unique items
 
+
+
+
+
+
+
+  //for Breakfast
+  Future<List<EntryModel>> getNoteList1() async {
+
+    var noteMapList = await getNoteMapList1(); // Get 'Map List' from database
+    int count = noteMapList.length;         // Count the number of map entries in db table
+
+    List<EntryModel> noteList = List<EntryModel>();
+    // For loop to create a 'Note List' from a 'Map List'
+    for (int i = 0; i < count; i++) {
+      noteList.add(EntryModel.fromMapObject(noteMapList[i]));
+    }
+
+    return noteList;
+  }
+  //for breakfast
+  Future<List<Map<String, dynamic>>> getNoteMapList1() async {
+    Database db = await this.database;
+
+//		var result = await db.rawQuery('SELECT * FROM $noteTable order by $colPriority ASC');
+    var result = await db.query(entryTable,where:'$colPayment="Cash" AND $colQuantity="1"');
+    return result;
+  }
 }

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:messtransacts/Screens/AddEntryScreens/AEdatefoodtype.dart';
+import 'package:messtransacts/Screens/LogDataAnalysis.dart';
 import 'package:messtransacts/models/EntryModel.dart';
 import 'package:messtransacts/utils/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'LogData.dart';
+import 'AllLogData.dart';
 
 
 class WillyHome extends StatefulWidget {
@@ -102,7 +103,7 @@ class _WillyHomeState extends State<WillyHome> {
                   InkWell(
                     onTap: (){
                         //
-                          Navigator.pushNamed(context, LogData.id);
+                          Navigator.pushNamed(context, LogDataAnalysis.id);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
