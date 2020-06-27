@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:messtransacts/Screens/AddEntryScreens/AEdatefoodtype.dart';
+import 'package:messtransacts/Screens/AllLogDataDateSelec.dart';
 import 'package:messtransacts/Screens/LogDataAnalysis.dart';
 import 'package:messtransacts/models/EntryModel.dart';
 import 'package:messtransacts/utils/database_helper.dart';
@@ -103,7 +104,7 @@ class _WillyHomeState extends State<WillyHome> {
                   InkWell(
                     onTap: (){
                         //
-                          Navigator.pushNamed(context, LogDataAnalysis.id);
+                          Navigator.pushNamed(context, AllLogDataDateSelec.id);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),

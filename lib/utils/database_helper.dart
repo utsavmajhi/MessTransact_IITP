@@ -104,10 +104,24 @@ class DatabaseHelper{
 
 
 
-  //for Breakfast
-  Future<List<EntryModel>> getNoteList1() async {
+  //for particular date
+  Future<List<EntryModel>> getNoteList1(String date,int databasefunction,String foodcat,String mealtype) async {
+    var noteMapList;
+    switch(databasefunction)
+    {
+      //for all queries
+      case 1:noteMapList = await getNoteMapList();
+              break;
+      case 2:noteMapList = await getNoteMapList2(date,mealtype);
+      break;
+      case 3:noteMapList = await getNoteMapList3(date,foodcat,mealtype);
+      break;
+      default:noteMapList = await getNoteMapList();
+              break;
 
-    var noteMapList = await getNoteMapList1(); // Get 'Map List' from database
+
+    }
+    //var noteMapList = await getNoteMapList2(date); // Get 'Map List' from database
     int count = noteMapList.length;         // Count the number of map entries in db table
 
     List<EntryModel> noteList = List<EntryModel>();
@@ -118,12 +132,23 @@ class DatabaseHelper{
 
     return noteList;
   }
-  //for breakfast
-  Future<List<Map<String, dynamic>>> getNoteMapList1() async {
+  //for particular date
+  Future<List<Map<String, dynamic>>> getNoteMapList2(String date, String mealtype) async {
     Database db = await this.database;
 
 //		var result = await db.rawQuery('SELECT * FROM $noteTable order by $colPriority ASC');
-    var result = await db.query(entryTable,where:'$colPayment="Cash" AND $colQuantity="1"');
+    var result = await db.query(entryTable,where: '$colDate="$date" AND $colMealType="$mealtype"');
     return result;
   }
+  //for particular query parameters with DATE,MEAL_TYPE,_FOODCAT
+  Future<List<Map<String, dynamic>>> getNoteMapList3(String date,String foodcat,String mealtype) async {
+    Database db = await this.database;
+
+//		var result = await db.rawQuery('SELECT * FROM $noteTable order by $colPriority ASC');
+    var result = await db.query(entryTable,where: '$colDate="$date" AND $colFoodCat="$foodcat" AND $colMealType="$mealtype"');
+    return result;
+  }
+
+
+
 }

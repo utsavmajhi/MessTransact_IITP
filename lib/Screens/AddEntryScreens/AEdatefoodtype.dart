@@ -132,7 +132,7 @@ class _AEdatefoodtypeState extends State<AEdatefoodtype> {
                         ),
                         GestureDetector(
                           onTap: (){
-                            Navigator.pushNamed(context,AddEntryFinal.id,arguments: Addentrysc1(date: changetimeformat(_dateTime),mealtype: _foodcat,foodlists: ['Basic','Pakoda','Milk','Curd','Aloo Bujiya'],fooditemcost: [20,12,56,67,20]) );
+                            Navigator.pushNamed(context,AddEntryFinal.id,arguments: Addentrysc1(date: changetimeformat(_dateTime),mealtype: _foodcat,foodlists: ['Basic','Pakoda','Milk','Curd','Aloo Bujiya'],fooditemcost: [13,12,56,67,33]) );
 
                           },
                           child: CircleAvatar(

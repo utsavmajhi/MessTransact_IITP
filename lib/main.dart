@@ -4,6 +4,7 @@ import 'package:messtransacts/Screens/WillyHome.dart';
 import 'package:messtransacts/Screens/AddEntryScreens/AEdatefoodtype.dart';
 import 'package:messtransacts/Screens/AddEntryScreens/AddEntryFinal.dart';
 import 'package:messtransacts/Screens/LogDataAnalysis.dart';
+import 'package:messtransacts/Screens/AllLogDataDateSelec.dart';
 
 void main() {
   runApp(MyApp());
@@ -21,6 +22,7 @@ class MyApp extends StatelessWidget {
         AEdatefoodtype.id:(context) => AEdatefoodtype(),
         AddEntryFinal.id:(context) => AddEntryFinal(),
         LogDataAnalysis.id:(context) => LogDataAnalysis(),
+        AllLogDataDateSelec.id:(context) => AllLogDataDateSelec(),
       },
     );
   }
