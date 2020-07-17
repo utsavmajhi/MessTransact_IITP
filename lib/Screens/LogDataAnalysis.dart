@@ -42,203 +42,240 @@ class _LogDataAnalysisState extends State<LogDataAnalysis> {
       updateListView(logdataDateargs.date);
     }
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: SafeArea(
-          child: Column(
-            children: <Widget>[
-              Text(
-                'BreakFast',
-              ),
-              FittedBox(
-                fit: BoxFit.fitWidth,
-                child: DataTable(
-                  columns: [
-                    DataColumn(label: Text('Type')),
-                    DataColumn(label: Text('Quantity')),
-                    DataColumn(label: Text('Cash')),
-                    DataColumn(label: Text('GPay')),
-                    DataColumn(label: Text('Khaata')),
-                    DataColumn(label: Text('Total Amt'))
+          child: Padding(
+            padding: const EdgeInsets.all(2.0),
+            child: Column(
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'BreakFast',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w500,
 
-                  ],
-                  rows:
-                    listOfColumns.map((element) => DataRow(
+                    ),
+                  ),
+                ),
+                FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: DataTable(
+                    columns: [
+                      DataColumn(label: Text('Type',style: TextStyle(fontSize: 18),)),
+                      DataColumn(label: Text('Quantity',style: TextStyle(fontSize: 18),)),
+                      DataColumn(label: Text('Cash',style: TextStyle(fontSize: 18),)),
+                      DataColumn(label: Text('GPay',style: TextStyle(fontSize: 18),)),
+                      DataColumn(label: Text('Khaata',style: TextStyle(fontSize: 18),)),
+                      DataColumn(label: Text('Total Amt',style: TextStyle(fontSize: 18),))
+
+                    ],
+                    rows:
+                      listOfColumns.map((element) => DataRow(
+                        cells: <DataCell>[
+                          DataCell(Text(element["Type"],style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold
+                          ),)), //Extracting from Map element the value
+                          DataCell(Text(element["Quantity"],
+                              style: TextStyle(
+                              fontSize: 18,
+                          ),
+                          )),
+                          DataCell(Text(element["Cash"],
+                            style: TextStyle(
+                                fontSize: 18,
+
+                            ),)),
+                          DataCell(Text(element["GPay"],
+                            style: TextStyle(
+                                fontSize: 18,
+
+                            ),)), //Extracting from Map element the value
+                          DataCell(Text(element["Khaata"],
+                            style: TextStyle(
+                                fontSize: 18,
+                            ),)),
+                          DataCell(Text("Rs "+element["TotalAmt"],
+                            style: TextStyle(
+                                fontSize: 19,),)),
+                        ],
+                      )).toList(),
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Lunch',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w500,
+
+                    ),
+                  ),
+                ),
+                FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: DataTable(
+                    columns: [
+                      DataColumn(label: Text('Type',style: TextStyle(fontSize: 18),)),
+                      DataColumn(label: Text('Quantity',style: TextStyle(fontSize: 18),)),
+                      DataColumn(label: Text('Cash',style: TextStyle(fontSize: 18),)),
+                      DataColumn(label: Text('GPay',style: TextStyle(fontSize: 18),)),
+                      DataColumn(label: Text('Khaata',style: TextStyle(fontSize: 18),)),
+                      DataColumn(label: Text('Total Amt',style: TextStyle(fontSize: 18),))
+
+                    ],
+                    rows:
+                    listOfColumnsLunch.map((element) => DataRow(
                       cells: <DataCell>[
                         DataCell(Text(element["Type"],style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold
                         ),)), //Extracting from Map element the value
                         DataCell(Text(element["Quantity"],
-                            style: TextStyle(
-                            fontSize: 15,
-                        ),
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
                         )),
                         DataCell(Text(element["Cash"],
                           style: TextStyle(
-                              fontSize: 15,
+                            fontSize: 18,
 
                           ),)),
                         DataCell(Text(element["GPay"],
                           style: TextStyle(
-                              fontSize: 15,
+                            fontSize: 18,
 
                           ),)), //Extracting from Map element the value
                         DataCell(Text(element["Khaata"],
                           style: TextStyle(
-                              fontSize: 15,
+                            fontSize: 18,
                           ),)),
-                        DataCell(Text(element["TotalAmt"],
+                        DataCell(Text("Rs "+element["TotalAmt"],
                           style: TextStyle(
-                              fontSize: 15,),)),
+                            fontSize: 19,),)),
                       ],
                     )).toList(),
+                  ),
                 ),
-              ),
-              Text(
-                'Lunch',
-              ),
-              FittedBox(
-                fit: BoxFit.fitWidth,
-                child: DataTable(
-                  columns: [
-                    DataColumn(label: Text('Type')),
-                    DataColumn(label: Text('Quantity')),
-                    DataColumn(label: Text('Cash')),
-                    DataColumn(label: Text('GPay')),
-                    DataColumn(label: Text('Khaata')),
-                    DataColumn(label: Text('Total Amt'))
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Snacks',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w500,
 
-                  ],
-                  rows:
-                  listOfColumnsLunch.map((element) => DataRow(
-                    cells: <DataCell>[
-                      DataCell(Text(element["Type"],style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold
-                      ),)), //Extracting from Map element the value
-                      DataCell(Text(element["Quantity"],
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),
-                      )),
-                      DataCell(Text(element["Cash"],
-                        style: TextStyle(
-                          fontSize: 15,
+                    ),
+                  ),
+                ),
+                FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: DataTable(
+                    columns: [
+                      DataColumn(label: Text('Type',style: TextStyle(fontSize: 18),)),
+                      DataColumn(label: Text('Quantity',style: TextStyle(fontSize: 18),)),
+                      DataColumn(label: Text('Cash',style: TextStyle(fontSize: 18),)),
+                      DataColumn(label: Text('GPay',style: TextStyle(fontSize: 18),)),
+                      DataColumn(label: Text('Khaata',style: TextStyle(fontSize: 18),)),
+                      DataColumn(label: Text('Total Amt',style: TextStyle(fontSize: 18),))
 
-                        ),)),
-                      DataCell(Text(element["GPay"],
-                        style: TextStyle(
-                          fontSize: 15,
-
-                        ),)), //Extracting from Map element the value
-                      DataCell(Text(element["Khaata"],
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),)),
-                      DataCell(Text(element["TotalAmt"],
-                        style: TextStyle(
-                          fontSize: 15,),)),
                     ],
-                  )).toList(),
-                ),
-              ),
-              Text(
-                'Snacks',
-              ),
-              FittedBox(
-                fit: BoxFit.fitWidth,
-                child: DataTable(
-                  columns: [
-                    DataColumn(label: Text('Type')),
-                    DataColumn(label: Text('Quantity')),
-                    DataColumn(label: Text('Cash')),
-                    DataColumn(label: Text('GPay')),
-                    DataColumn(label: Text('Khaata')),
-                    DataColumn(label: Text('Total Amt'))
-
-                  ],
-                  rows:
-                  listOfColumnsSnacks.map((element) => DataRow(
-                    cells: <DataCell>[
-                      DataCell(Text(element["Type"],style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold
-                      ),)), //Extracting from Map element the value
-                      DataCell(Text(element["Quantity"],
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),
-                      )),
-                      DataCell(Text(element["Cash"],
-                        style: TextStyle(
-                          fontSize: 15,
-
-                        ),)),
-                      DataCell(Text(element["GPay"],
-                        style: TextStyle(
-                          fontSize: 15,
-
+                    rows:
+                    listOfColumnsSnacks.map((element) => DataRow(
+                      cells: <DataCell>[
+                        DataCell(Text(element["Type"],style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold
                         ),)), //Extracting from Map element the value
-                      DataCell(Text(element["Khaata"],
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),)),
-                      DataCell(Text(element["TotalAmt"],
-                        style: TextStyle(
-                          fontSize: 15,),)),
-                    ],
-                  )).toList(),
+                        DataCell(Text(element["Quantity"],
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        )),
+                        DataCell(Text(element["Cash"],
+                          style: TextStyle(
+                            fontSize: 18,
+
+                          ),)),
+                        DataCell(Text(element["GPay"],
+                          style: TextStyle(
+                            fontSize: 18,
+
+                          ),)), //Extracting from Map element the value
+                        DataCell(Text(element["Khaata"],
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),)),
+                        DataCell(Text("Rs "+element["TotalAmt"],
+                          style: TextStyle(
+                            fontSize: 19,),)),
+                      ],
+                    )).toList(),
+                  ),
                 ),
-              ),
-              Text(
-                'Dinner',
-              ),
-              FittedBox(
-                fit: BoxFit.fitWidth,
-                child: DataTable(
-                  columns: [
-                    DataColumn(label: Text('Type')),
-                    DataColumn(label: Text('Quantity')),
-                    DataColumn(label: Text('Cash')),
-                    DataColumn(label: Text('GPay')),
-                    DataColumn(label: Text('Khaata')),
-                    DataColumn(label: Text('Total Amt'))
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Text(
+                    'Dinner',
+                    style: TextStyle(
+                      fontSize: 22,
+                      fontWeight: FontWeight.w500,
 
-                  ],
-                  rows:
-                  listOfColumnsDinner.map((element) => DataRow(
-                    cells: <DataCell>[
-                      DataCell(Text(element["Type"],style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.bold
-                      ),)), //Extracting from Map element the value
-                      DataCell(Text(element["Quantity"],
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),
-                      )),
-                      DataCell(Text(element["Cash"],
-                        style: TextStyle(
-                          fontSize: 15,
+                    ),
+                  ),
+                ),
+                FittedBox(
+                  fit: BoxFit.fitWidth,
+                  child: DataTable(
+                    columns: [
+                      DataColumn(label: Text('Type',style: TextStyle(fontSize: 18),)),
+                      DataColumn(label: Text('Quantity',style: TextStyle(fontSize: 18),)),
+                      DataColumn(label: Text('Cash',style: TextStyle(fontSize: 18),)),
+                      DataColumn(label: Text('GPay',style: TextStyle(fontSize: 18),)),
+                      DataColumn(label: Text('Khaata',style: TextStyle(fontSize: 18),)),
+                      DataColumn(label: Text('Total Amt',style: TextStyle(fontSize: 18),))
 
-                        ),)),
-                      DataCell(Text(element["GPay"],
-                        style: TextStyle(
-                          fontSize: 15,
+                    ],
+                    rows:
+                    listOfColumnsDinner.map((element) => DataRow(
 
+                      cells: <DataCell>[
+                        DataCell(Text(element["Type"],style: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold
                         ),)), //Extracting from Map element the value
-                      DataCell(Text(element["Khaata"],
-                        style: TextStyle(
-                          fontSize: 15,
-                        ),)),
-                      DataCell(Text(element["TotalAmt"],
-                        style: TextStyle(
-                          fontSize: 15,),)),
-                    ],
-                  )).toList(),
+                        DataCell(Text(element["Quantity"],
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),
+                        )),
+                        DataCell(Text(element["Cash"],
+                          style: TextStyle(
+                            fontSize: 18,
+
+                          ),)),
+                        DataCell(Text(element["GPay"],
+                          style: TextStyle(
+                            fontSize: 18,
+
+                          ),)), //Extracting from Map element the value
+                        DataCell(Text(element["Khaata"],
+                          style: TextStyle(
+                            fontSize: 18,
+                          ),)),
+                        DataCell(Text("Rs "+element["TotalAmt"],
+                          style: TextStyle(
+                            fontSize: 19,),)),
+                      ],
+                    )).toList(),
+                  ),
                 ),
-              ),
-            ],
+              ],
+            ),
           ),
         ),
       ),

@@ -8,8 +8,10 @@ import 'package:messtransacts/Screens/AllLogData.dart';
 import 'package:intl/intl.dart';
 import 'package:messtransacts/Passarguments/Addentrysc1.dart';
 import 'package:messtransacts/Screens/AddEntryScreens/AddEntryFinal.dart';
-
-
+import 'package:cloud_firestore/cloud_firestore.dart';
+final _firestore=Firestore.instance;
+List<String> foodnames=[];
+List<double> foodprices=[];
 class AEdatefoodtype extends StatefulWidget {
     static String id='aedatefood_screen';
   @override
@@ -131,8 +133,13 @@ class _AEdatefoodtypeState extends State<AEdatefoodtype> {
                           height: 30,
                         ),
                         GestureDetector(
-                          onTap: (){
-                            Navigator.pushNamed(context,AddEntryFinal.id,arguments: Addentrysc1(date: changetimeformat(_dateTime),mealtype: _foodcat,foodlists: ['Basic','Pakoda','Milk','Curd','Aloo Bujiya'],fooditemcost: [13,12,56,67,33]) );
+                          onTap: () async{
+                            foodnames.clear();
+                            foodprices.clear();
+                            if(await getvaluesfromdatabase(changetimeformat(_dateTime))){
+                              Navigator.pushNamed(context,AddEntryFinal.id,arguments: Addentrysc1(date: changetimeformat(_dateTime),mealtype: _foodcat,foodlists:foodnames,fooditemcost:foodprices) );
+                            }
+
 
                           },
                           child: CircleAvatar(
@@ -153,6 +160,22 @@ class _AEdatefoodtypeState extends State<AEdatefoodtype> {
     );
   }
 
+  Future<bool> getvaluesfromdatabase(String date) async{
+    try{
+      QuerySnapshot querySnapshot =await _firestore.collection('DailyFoodMenu').document(date).collection(_foodcat).getDocuments();
+      var documents = querySnapshot.documents;
+      print(documents);
+      for(int i=0;i<documents.length;i++){
+        foodnames.add(documents[i].data["itemname"]);
+        foodprices.add(documents[i].data["itemprice"]);
+      }
+    }
+    catch(e){
+      print(e.message);
+    }
+
+    return true;
+  }
 }
 
 //for formatting date
