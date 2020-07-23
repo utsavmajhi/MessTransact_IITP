@@ -5,6 +5,7 @@ import 'package:messtransacts/Screens/AddEntryScreens/AEdatefoodtype.dart';
 import 'package:messtransacts/Screens/AddEntryScreens/AddEntryFinal.dart';
 import 'package:messtransacts/Screens/LogDataAnalysis.dart';
 import 'package:messtransacts/Screens/AllLogDataDateSelec.dart';
+import 'Screens/UpdateDataCloud.dart';
 
 void main() {
   runApp(MyApp());
@@ -23,6 +24,7 @@ class MyApp extends StatelessWidget {
         AddEntryFinal.id:(context) => AddEntryFinal(),
         LogDataAnalysis.id:(context) => LogDataAnalysis(),
         AllLogDataDateSelec.id:(context) => AllLogDataDateSelec(),
+        UpdateDataCloud.id:(context) => UpdateDataCloud(),
       },
     );
   }

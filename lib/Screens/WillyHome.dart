@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:messtransacts/Screens/AddEntryScreens/AEdatefoodtype.dart';
 import 'package:messtransacts/Screens/AllLogDataDateSelec.dart';
 import 'package:messtransacts/Screens/LogDataAnalysis.dart';
+import 'package:messtransacts/Screens/UpdateDataCloud.dart';
 import 'package:messtransacts/models/EntryModel.dart';
 import 'package:messtransacts/utils/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
@@ -142,7 +143,7 @@ class _WillyHomeState extends State<WillyHome> {
                     onTap: (){
                       //goto screen
 
-
+                        Navigator.pushNamed(context, UpdateDataCloud.id);
                     },
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
