@@ -7,6 +7,7 @@ import 'package:messtransacts/utils/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:messtransacts/Screens/AllLogData.dart';
 import 'package:intl/intl.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -29,13 +30,13 @@ class UpdateDataCloud extends StatefulWidget {
 
 class _UpdateDataCloudState extends State<UpdateDataCloud> {
   DatabaseHelper databaseHelper = DatabaseHelper();
+  String workspace="";
   List<String> uniqueitems=[];
   List<EntryModel> m=List<EntryModel>();
   List<EntryModel> entryList1;
-  DateTime _dateTime=DateTime.now();
+  DateTime _dateTime=DateTime.now();//date picker from calendar
+  String lastupdate="";
 
-  String lastupdate="";//date picker from calendar
-  String _foodcat='None';
   GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   //snackbar initialises
   _showSnackBar(@required String message, @required Color colors) {
@@ -49,6 +50,17 @@ class _UpdateDataCloudState extends State<UpdateDataCloud> {
       );
     }
   }
+  Future<bool> getvaluesfromshared() async
+  {
+    SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
+    String username=sharedPreferences.getString('username');
+    String workspaceshared=sharedPreferences.getString('workspace');
+    setState(() {
+      workspace=workspaceshared;
+    });
+    return true;
+  }
+
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked=await showDatePicker(context: context, initialDate: _dateTime, firstDate: DateTime(2016), lastDate: DateTime(2222));
     if(picked!=null && picked !=_dateTime)
@@ -59,8 +71,10 @@ class _UpdateDataCloudState extends State<UpdateDataCloud> {
       });
     }
   }
-  Stream<String> streamListCustom() {
-
+  @override
+  void initState() {
+    super.initState();
+    getvaluesfromshared();
   }
   @override
   Widget build(BuildContext context) {
@@ -75,7 +89,7 @@ class _UpdateDataCloudState extends State<UpdateDataCloud> {
 
       ),
       body: StreamBuilder(
-        stream:  _firestore.collection("CloudDataEvents").document(changetimeformat(_dateTime)).snapshots(),
+        stream:  _firestore.collection("CloudDataEvents").document(workspace).collection("DataAnalysis").document(changetimeformat(_dateTime)).snapshots(),
         builder: (context,snapshot){
           if((snapshot.hasData)){
                 try{
@@ -246,13 +260,6 @@ class _UpdateDataCloudState extends State<UpdateDataCloud> {
     }
 
 
-
-
-
-
-
-
-
   }
   void setentries(int table, String date){
 
@@ -286,7 +293,7 @@ class _UpdateDataCloudState extends State<UpdateDataCloud> {
 
         switch(table){
           case 0:{
-            _firestore.collection("CloudDataEvents").document(changetimeformat(_dateTime)).collection("Breakfast").document(uniqueitems[ui]).setData({
+            _firestore.collection("CloudDataEvents").document(workspace).collection("DataAnalysis").document(changetimeformat(_dateTime)).collection("Breakfast").document(uniqueitems[ui]).setData({
               "ItemName":uniqueitems[ui],
               "Quantity":totQuantity.toString(),
               "Cash":Cash.toString(),
@@ -297,7 +304,7 @@ class _UpdateDataCloudState extends State<UpdateDataCloud> {
             break;
           }
           case 1:
-            _firestore.collection("CloudDataEvents").document(changetimeformat(_dateTime)).collection("Lunch").document(uniqueitems[ui]).setData({
+            _firestore.collection("CloudDataEvents").document(workspace).collection("DataAnalysis").document(changetimeformat(_dateTime)).collection("Lunch").document(uniqueitems[ui]).setData({
               "ItemName":uniqueitems[ui],
               "Quantity":totQuantity.toString(),
               "Cash":Cash.toString(),
@@ -306,7 +313,7 @@ class _UpdateDataCloudState extends State<UpdateDataCloud> {
               "TotalAmt":(totQuantity*m[0].Amount).toString(),
             });
             break;
-          case 2:_firestore.collection("CloudDataEvents").document(changetimeformat(_dateTime)).collection("Snacks").document(uniqueitems[ui]).setData({
+          case 2:_firestore.collection("CloudDataEvents").document(workspace).collection("DataAnalysis").document(changetimeformat(_dateTime)).collection("Snacks").document(uniqueitems[ui]).setData({
             "ItemName":uniqueitems[ui],
             "Quantity":totQuantity.toString(),
             "Cash":Cash.toString(),
@@ -316,7 +323,7 @@ class _UpdateDataCloudState extends State<UpdateDataCloud> {
           });
           break;
           case 3:
-            _firestore.collection("CloudDataEvents").document(changetimeformat(_dateTime)).collection("Dinner").document(uniqueitems[ui]).setData({
+            _firestore.collection("CloudDataEvents").document(workspace).collection("DataAnalysis").document(changetimeformat(_dateTime)).collection("Dinner").document(uniqueitems[ui]).setData({
               "ItemName":uniqueitems[ui],
               "Quantity":totQuantity.toString(),
               "Cash":Cash.toString(),
@@ -333,7 +340,7 @@ class _UpdateDataCloudState extends State<UpdateDataCloud> {
   }
   
   void lastupdatetime(DateTime dateTime){
-    _firestore.collection("CloudDataEvents").document(changetimeformat(dateTime)).setData({
+    _firestore.collection("CloudDataEvents").document(workspace).collection("DataAnalysis").document(changetimeformat(dateTime)).setData({
       'LastUpdate':changetimeformattype2(dateTime),
     }).then((value) => _showSnackBar("Successfully Updated", Colors.green[600]));
     

@@ -412,7 +412,7 @@ class _LoginScreenState extends State<LoginScreen> {
   {
     SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
     await sharedPreferences.setString('username', username);
-    await sharedPreferences.setString('workspace', username);
+    await sharedPreferences.setString('workspace', workspace);
     await sharedPreferences.setString('UID', uid);
     sharedPreferences.commit();
     return "true";

@@ -10,6 +10,9 @@ import 'package:messtransacts/Passarguments/Addentrysc1.dart';
 import 'package:messtransacts/Screens/AddEntryScreens/AddEntryFinal.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:modal_progress_hud/modal_progress_hud.dart';
+
+
 final _firestore=Firestore.instance;
 List<String> foodnames=[];
 List<double> foodprices=[];
@@ -23,6 +26,8 @@ class _AEdatefoodtypeState extends State<AEdatefoodtype> {
   String workspace="";
   DateTime _dateTime=DateTime.now();  //date picker from calendar
   String _foodcat='None';
+  bool showSpinner = false;
+  GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   Future<Null> _selectDate(BuildContext context) async {
     final DateTime picked=await showDatePicker(context: context, initialDate: _dateTime, firstDate: DateTime(2016), lastDate: DateTime(2222));
     if(picked!=null && picked !=_dateTime)
@@ -50,9 +55,23 @@ class _AEdatefoodtypeState extends State<AEdatefoodtype> {
     });
     return true;
   }
+  //snackbar initialises
+  _showSnackBar(@required String message, @required Color colors) {
+    if (_scaffoldKey != null) {
+      _scaffoldKey.currentState.showSnackBar(
+        SnackBar(
+          backgroundColor: colors,
+          content: new Text(message),
+          duration: new Duration(seconds: 4),
+        ),
+      );
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      backgroundColor: Colors.red[600],
       appBar: AppBar(
         backgroundColor: Colors.red,
         title: Text(
@@ -60,29 +79,47 @@ class _AEdatefoodtypeState extends State<AEdatefoodtype> {
         ),
 
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
-        children: <Widget>[
-          Expanded(
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.red[600],
-              ),
-              child: SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.all(18.0),
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(20),
-                    ),
-                    elevation: 4,
+      body: ModalProgressHUD(
+        inAsyncCall: showSpinner,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          mainAxisAlignment: MainAxisAlignment.center ,
+          children: <Widget>[
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Card(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  elevation: 4,
+                  child: Padding(
+                    padding: const EdgeInsets.all(18.0),
                     child: Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: CircleAvatar(
+                            radius: 45,
+                            child: SvgPicture.asset('images/add.svg',fit: BoxFit.contain,),
+                          ),
+                        ),
+                        Text(
+                          "ADD ITEMS",
+                          style: TextStyle(
+                              fontSize: 19,
+                              fontWeight: FontWeight.bold
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
                         Text(
                           'Select Entry Date',
                           style: TextStyle(
-                            fontSize: 22
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500
                           ),
                         ),
                         FlatButton(
@@ -115,7 +152,8 @@ class _AEdatefoodtypeState extends State<AEdatefoodtype> {
                         Text(
                           'Select Food Category',
                           style: TextStyle(
-                              fontSize: 22
+                              fontSize: 18,
+                            fontWeight: FontWeight.w500
                           ),
                         ),
                         DropdownButton<String>(
@@ -152,12 +190,26 @@ class _AEdatefoodtypeState extends State<AEdatefoodtype> {
                         ),
                         GestureDetector(
                           onTap: () async{
+                            setState(() {
+                              showSpinner = true;
+                            });
                             foodnames.clear();
                             foodprices.clear();
-                            if(await getvaluesfromdatabase(changetimeformat(_dateTime))){
-                              Navigator.pushNamed(context,AddEntryFinal.id,arguments: Addentrysc1(date: changetimeformat(_dateTime),mealtype: _foodcat,foodlists:foodnames,fooditemcost:foodprices) );
+                            if(_foodcat=="None"){
+                              setState(() {
+                                showSpinner=false;
+                              });
+                              _showSnackBar("Please Select Food Category from DropDown Menu",Colors.black87);
                             }
-
+                            else{
+                              if(await getvaluesfromdatabase(changetimeformat(_dateTime))){
+                                _foodcat="None";
+                                Navigator.pushReplacementNamed(context,AddEntryFinal.id,arguments: Addentrysc1(date: changetimeformat(_dateTime),mealtype: _foodcat,foodlists:foodnames,fooditemcost:foodprices) );
+                              }
+                            }
+                            setState(() {
+                              showSpinner=false;
+                            });
 
                           },
                           child: CircleAvatar(
@@ -171,9 +223,9 @@ class _AEdatefoodtypeState extends State<AEdatefoodtype> {
                   ),
                 ),
               ),
-            ),
-          )
-        ],
+            )
+          ],
+        ),
       ),
     );
   }
