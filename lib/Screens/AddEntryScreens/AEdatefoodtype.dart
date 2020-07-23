@@ -9,6 +9,7 @@ import 'package:intl/intl.dart';
 import 'package:messtransacts/Passarguments/Addentrysc1.dart';
 import 'package:messtransacts/Screens/AddEntryScreens/AddEntryFinal.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 final _firestore=Firestore.instance;
 List<String> foodnames=[];
 List<double> foodprices=[];
@@ -19,6 +20,7 @@ class AEdatefoodtype extends StatefulWidget {
 }
 
 class _AEdatefoodtypeState extends State<AEdatefoodtype> {
+  String workspace="";
   DateTime _dateTime=DateTime.now();  //date picker from calendar
   String _foodcat='None';
   Future<Null> _selectDate(BuildContext context) async {
@@ -31,7 +33,23 @@ class _AEdatefoodtypeState extends State<AEdatefoodtype> {
       });
     }
   }
+@override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    getvaluesfromshared();
 
+  }
+  Future<bool> getvaluesfromshared() async
+  {
+    SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
+    String username=sharedPreferences.getString('username');
+    String workspaceshared=sharedPreferences.getString('workspace');
+    setState(() {
+     workspace=workspaceshared;
+    });
+    return true;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -162,7 +180,7 @@ class _AEdatefoodtypeState extends State<AEdatefoodtype> {
 
   Future<bool> getvaluesfromdatabase(String date) async{
     try{
-      QuerySnapshot querySnapshot =await _firestore.collection('DailyFoodMenu').document(date).collection(_foodcat).getDocuments();
+      QuerySnapshot querySnapshot =await _firestore.collection('DailyFoodMenu').document(workspace).collection("Menu").document(date).collection(_foodcat).getDocuments();
       var documents = querySnapshot.documents;
       print(documents);
       for(int i=0;i<documents.length;i++){

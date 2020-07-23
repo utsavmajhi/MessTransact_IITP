@@ -9,6 +9,7 @@ import 'package:messtransacts/utils/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:messtransacts/Screens/LogDataAnalysis.dart';
 import "dart:collection";
@@ -299,9 +300,10 @@ class _LoginScreenState extends State<LoginScreen> {
                                 print("Email is :" +
                                     _authenticatedUser.isEmailVerified
                                         .toString());
-                                _firestore.collection("UsersData").document(_authenticatedUser.uid).get().then((value){
+                                _firestore.collection("UsersData").document(_authenticatedUser.uid).get().then((value) async{
                                   String typeuser=value.data['typeofuser'];
                                   String workspace=value.data['workspace'];
+                                  String username=value.data['username'];
                                   print(typeuser);
                                   print(workspace);
                                   if(typeuser!='2'){
@@ -312,14 +314,16 @@ class _LoginScreenState extends State<LoginScreen> {
                                         'The user is not Authorised to use Mess Transact App',
                                         Colors.red[600]);
                                   }else{
-                                    Navigator.pushReplacementNamed(context, WillyHome.id);
+                                    if(await setsharedprefs(username, workspace, _authenticatedUser.uid)=="true"){
+                                      setState(() {
+                                        showSpinner = false;
+                                      });
+                                      Navigator.pushReplacementNamed(context, WillyHome.id);
+                                    }
                                   }
                                 });
                                 // await _showSnackBar('Email is verified',Colors.lightGreen);
-                                setState(() {
-                                  //Navigator.pushReplacementNamed(context, HomeScreen.id);
-                                  showSpinner = false;
-                                });
+
                               } else {
                                 print("Email is :" +
                                     _authenticatedUser.isEmailVerified
@@ -404,5 +408,14 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     }
   }
+  Future<String> setsharedprefs(String username,String workspace,String uid) async
+  {
+    SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
+    await sharedPreferences.setString('username', username);
+    await sharedPreferences.setString('workspace', username);
+    await sharedPreferences.setString('UID', uid);
+    sharedPreferences.commit();
+    return "true";
 
+  }
 }
