@@ -6,6 +6,8 @@ import 'package:messtransacts/Screens/AddEntryScreens/AddEntryFinal.dart';
 import 'package:messtransacts/Screens/LogDataAnalysis.dart';
 import 'package:messtransacts/Screens/AllLogDataDateSelec.dart';
 import 'Screens/UpdateDataCloud.dart';
+import 'package:messtransacts/Screens/LoginScreen.dart';
+import 'package:messtransacts/Screens/RegistrationScreen.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,7 +18,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      initialRoute: WillyHome.id,
+      initialRoute: LoginScreen.id,
       routes: {
         LogData.id:(context) =>LogData(),
         WillyHome.id:(context) => WillyHome(),
@@ -25,6 +27,8 @@ class MyApp extends StatelessWidget {
         LogDataAnalysis.id:(context) => LogDataAnalysis(),
         AllLogDataDateSelec.id:(context) => AllLogDataDateSelec(),
         UpdateDataCloud.id:(context) => UpdateDataCloud(),
+        LoginScreen.id:(context) => LoginScreen(),
+        RegistrationScreen.id:(context) => RegistrationScreen(),
       },
     );
   }
