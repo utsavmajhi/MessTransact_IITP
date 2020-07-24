@@ -395,11 +395,12 @@ class _AddEntryFinalState extends State<AddEntryFinal> {
 
     int result;
       result = await databaseHelper.insertNote(entryItem);
-      print("Entering");
+
 
     if(await result!=0)
     {
       print("success");
+      print(entryItem);
       return "Success";
     }
 
