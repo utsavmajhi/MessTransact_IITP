@@ -82,7 +82,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal:25.0,vertical: 20),
                   child: CircleAvatar(
-                      backgroundColor: Colors.deepPurple,
+                      backgroundColor: Colors.red[600],
                       radius: 50,
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),
@@ -112,7 +112,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   padding: const EdgeInsets.only(
                       left: 30, top: 20, right: 30),
                   child: TextFormField(
-                    cursorColor: Color(0xFF6746CC),
+                    cursorColor: Colors.red[600],
 
                     textAlign: TextAlign.start,
                     onChanged: (value) {
@@ -138,7 +138,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                   padding: const EdgeInsets.only(
                       left: 30, top: 20, right: 30, bottom: 20),
                   child: TextFormField(
-                    cursorColor: Color(0xFF6746CC),
+                    cursorColor: Colors.red[600],
 
                     textAlign: TextAlign.start,
                     onChanged: (value) {
@@ -277,7 +277,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                     Center(
                       child: RoundedButton(
                         title: 'Submit',
-                        colour: Color(0xFF6746CC),
+                        colour: Colors.red[600],
                         onPressed: () async {
                           //backends starts
 
@@ -348,7 +348,7 @@ class _RegistrationScreenState extends State<RegistrationScreen> {
                               child: Text(
                                 'Login',
                                 style: TextStyle(
-                                    color: Color(0xFF6746CC),
+                                    color: Colors.red[600],
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600),
                               ),

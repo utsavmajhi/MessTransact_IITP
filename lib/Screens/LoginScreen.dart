@@ -37,6 +37,44 @@ class _LoginScreenState extends State<LoginScreen> {
     // TODO: implement initState
     super.initState();
     passwordVisible = false;
+    getCurrentUser();
+
+
+  }
+  void getCurrentUser () async{
+    setState(() {
+      showSpinner=true;
+    });
+    try{
+      final user=await _auth.currentUser();
+      if(user!=null&&(user.isEmailVerified==true))
+      {
+        _firestore.collection("UsersData").document(user.uid).get().then((value){
+          if(value.data['typeofuser']=='2'){
+            setsharedprefs(value.data['username'],value.data['workspace'], user.uid).then((value){
+              Navigator.pushReplacementNamed(context,WillyHome.id);
+              setState(() {
+                showSpinner=false;
+              });
+
+            });
+          }
+        });
+        setState(() {
+          showSpinner=false;
+        });
+
+      }else{
+        setState(() {
+          showSpinner=false;
+        });
+      }
+    }
+    catch(e)
+    {
+      print(e);
+    }
+
   }
   //snackbar initialises
   _showSnackBar(@required String message, @required Color colors) {
@@ -74,7 +112,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal:25.0),
                   child: Text(
-                    'Welcome Back,',
+                    'Mess Transact IITP',
                     style: TextStyle(
                         fontSize: 30,
                         fontWeight: FontWeight.w700
@@ -215,32 +253,31 @@ class _LoginScreenState extends State<LoginScreen> {
                                             padding: const EdgeInsets.only(left:18.0,right: 18,top: 0,bottom: 10),
                                             child: RoundedButton(
                                               title: "Send Reset Link",
-                                              colour: Color(0xFF6746CC),
+                                              colour: Colors.red[600],
                                               onPressed: (){
                                                 setState(()async{
-                                                  if(resetemail.text.isEmpty||(!resetemail.text.contains("@iitp"))){
+                                                  if(resetemail.text.isEmpty){
                                                     _showSnackBar(
                                                         'Please enter your Registered Institute Id',
                                                         Colors.red[600]);
                                                     Navigator.pop(context);
                                                   }
                                                   else{
-//                                                _validate="notempty";
-//                                                //checks completed and passed
-//                                                //backend starts
-//                                                String check=await firebasepasswordreset(resetemail.text,_auth);
-//                                                if(check=="ResetLinkSent")
-//                                                {
-//                                                  _showSnackBar(
-//                                                      'Password Reset link has been sent to ${resetemail.text}',
-//                                                      Colors.green);
-//                                                  Navigator.pop(context);
-//                                                }else
-//                                                {
-//                                                  _showSnackBar(check,
-//                                                      Colors.red[600]);
-//                                                  Navigator.pop(context);
-//                                                }
+                                                //checks completed and passed
+                                                //backend starts
+                                                String check=await firebasepasswordreset(resetemail.text,_auth);
+                                                if(check=="ResetLinkSent")
+                                                {
+                                                  _showSnackBar(
+                                                      'Password Reset link has been sent to ${resetemail.text}',
+                                                      Colors.green);
+                                                  Navigator.pop(context);
+                                                }else
+                                                {
+                                                  _showSnackBar(check,
+                                                      Colors.red[600]);
+                                                  Navigator.pop(context);
+                                                }
 
 
                                                   }
@@ -265,7 +302,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             style: TextStyle(
                               fontSize: 15,
                               fontWeight: FontWeight.w600,
-                              color: Color(0xFF6746CC),
+                              color: Colors.red[600],
                             ),
                           ),
                         ),
@@ -373,7 +410,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               child: Text(
                                 'Signup',
                                 style: TextStyle(
-                                    color: Color(0xFF6746CC),
+                                    color: Colors.red[600],
                                     fontSize: 16,
                                     fontWeight: FontWeight.w600),
                               ),
@@ -391,6 +428,21 @@ class _LoginScreenState extends State<LoginScreen> {
         ),
       ),
     );
+  }
+  //firebae password reset
+  Future<String> firebasepasswordreset(@required String email,FirebaseAuth _auth) async{
+    try{
+      await _auth.sendPasswordResetEmail(email: email);
+      print("password reset link has been sent to: "+email);
+      return "ResetLinkSent";
+    }
+    catch(e)
+    {
+      return e.message;
+
+    }
+
+
   }
   String checkparameters(
       @required String institutemail, @required String password) {

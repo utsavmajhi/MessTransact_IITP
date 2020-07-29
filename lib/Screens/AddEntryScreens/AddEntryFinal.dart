@@ -38,7 +38,7 @@ class _AddEntryFinalState extends State<AddEntryFinal> {
           style: TextStyle(
             color: Colors.white,
           ),),
-          duration: new Duration(seconds: 3),
+          duration: new Duration(seconds: 1),
         ),
       );
     }
@@ -104,7 +104,7 @@ class _AddEntryFinalState extends State<AddEntryFinal> {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      mainAxisAlignment: MainAxisAlignment.spaceAround,
                       children: <Widget>[
                         Column(
                           children: <Widget>[
@@ -138,18 +138,11 @@ class _AddEntryFinalState extends State<AddEntryFinal> {
                         Column(
                           children: <Widget>[
                             Text(
-                              'Entry No:',
+                              addentrysc1Data.workspace+"    ",
                               style: GoogleFonts.montserrat(
 
                                 fontSize: 20,
                                 color: Colors.white,
-                              ),
-                            ),
-                            Text(
-                              '12',
-                              style: GoogleFonts.montserrat(
-                                  fontSize: 18,
-                                  color: Colors.white
                               ),
                             ),
                           ],
@@ -325,7 +318,7 @@ class _AddEntryFinalState extends State<AddEntryFinal> {
                 ),
               ),
               Padding(
-                padding: const EdgeInsets.all(8.0),
+                padding: const EdgeInsets.only(top:8.0,bottom: 20,left: 8,right: 8),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: <Widget>[

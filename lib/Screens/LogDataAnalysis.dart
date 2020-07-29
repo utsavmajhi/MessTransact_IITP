@@ -7,6 +7,9 @@ import 'package:messtransacts/utils/database_helper.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:messtransacts/Screens/LogDataAnalysis.dart';
 import "dart:collection";
+import 'package:google_fonts/google_fonts.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 List<String> tablecat=["Breakfast","Lunch","Snacks","Dinner"];
 
 class LogDataAnalysis extends StatefulWidget {
@@ -18,6 +21,7 @@ class LogDataAnalysis extends StatefulWidget {
 
 class _LogDataAnalysisState extends State<LogDataAnalysis> {
   DatabaseHelper databaseHelper = DatabaseHelper();
+  String workspace="";
 
   List<EntryModel> entryList1;
   List<String> uniqueitems=[];
@@ -33,6 +37,17 @@ class _LogDataAnalysisState extends State<LogDataAnalysis> {
   void initState() {
     // TODO: implement initState
     super.initState();
+    getvaluesfromshared();
+  }
+  Future<bool> getvaluesfromshared() async
+  {
+    SharedPreferences sharedPreferences=await SharedPreferences.getInstance();
+
+    setState(() {
+      workspace=sharedPreferences.getString('workspace');
+    });
+
+    return true;
   }
   @override
   Widget build(BuildContext context) {
@@ -42,13 +57,20 @@ class _LogDataAnalysisState extends State<LogDataAnalysis> {
       updateListView(logdataDateargs.date);
     }
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.limeAccent[100],
       body: SingleChildScrollView(
         child: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(2.0),
             child: Column(
               children: <Widget>[
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Icon(Icons.group_work,size: 35,),
+                    Text(workspace,style: GoogleFonts.saira(color:Colors.red,fontSize: 30),),
+                  ],
+                ),
                 Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: Text(

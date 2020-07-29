@@ -4,6 +4,7 @@ import 'package:messtransacts/Passarguments/Addentrysc1.dart';
 import 'package:messtransacts/Screens/AddEntryScreens/AddEntryFinal.dart';
 import 'package:messtransacts/Passarguments/LogdataDateargs.dart';
 import 'package:messtransacts/Screens/LogDataAnalysis.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 
 class AllLogDataDateSelec extends StatefulWidget {
@@ -54,10 +55,29 @@ class _AllLogDataDateSelecState extends State<AllLogDataDateSelec> {
                   child: Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: <Widget>[
+                      Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: CircleAvatar(
+                          backgroundColor: Colors.transparent,
+                          radius: 45,
+                          child: SvgPicture.asset('images/result.svg',fit: BoxFit.contain,),
+                        ),
+                      ),
+                      Text(
+                        "Log Entries",
+                        style: TextStyle(
+                            fontSize: 17,
+                            fontWeight: FontWeight.bold
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
                       Text(
                         'Select Entry Date',
                         style: TextStyle(
-                            fontSize: 22
+                            fontSize: 19,
+                          fontWeight: FontWeight.bold
                         ),
                       ),
                       FlatButton(
